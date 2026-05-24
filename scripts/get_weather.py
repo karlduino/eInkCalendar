@@ -16,6 +16,13 @@ def main():
         with open(weather_file) as f:
             weather_json = json.load(f)
 
+    # load weather icon codes
+    icon_code_file = "WeatherIcons/icon_codes.json"
+    if os.path.exists(icon_code_file):
+        with open(icon_code_file) as f:
+            icon_codes = json.load(f)
+    icons = icon_codes['icon_list']
+
     # api call
     url = "https://api.openweathermap.org/data/2.5/weather"
     weather_json["units"] = "imperial"
@@ -26,9 +33,11 @@ def main():
 
         print("temp:       ", data['main']['temp'])
         print("conditions: ", data['weather'][0]['description'])
+        print("weather_id: ", data['weather'][0]['id'])
+        print("icon:       ", data['weather'][0]['icon'])
+        print("icon file:  ", icons[data['weather'][0]['icon']])
         print("sunrise:    ", convert_date(data['sys']['sunrise']))
         print("sunset:     ", convert_date(data['sys']['sunset']))
-
 
 
 def convert_date(ts, format="%I:%M %p"):
