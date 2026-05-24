@@ -40,3 +40,5 @@ instructable](https://www.instructables.com/Raspberry-Pi-Desktop-Weather-Display
 to include weather information using the OpenWeatherMap API.
 See the [API
 docs](https://openweathermap.org/api/current?collection=current_forecast).
+Also the [API docs for getting air pollution
+data](https://openweathermap.org/api/air-pollution?collection=environmental).
