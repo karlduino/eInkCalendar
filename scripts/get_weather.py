@@ -33,7 +33,7 @@ def main():
     if response.status_code == 200:
         data = response.json()
 
-        print("temp:       ", data['main']['temp'])
+        print("temp:       ", "%.0f" % data['main']['temp'] + u'\N{DEGREE SIGN}' + 'F')
         print("conditions: ", data['weather'][0]['description'])
         print("weather_id: ", data['weather'][0]['id'])
         print("icon:       ", data['weather'][0]['icon'])
