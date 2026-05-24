@@ -44,27 +44,29 @@ def main():
     else:
         print("weather error ", response.status_code)
 
-    # api call for air pollution
+    # api call for air pollution (seems to need GET rather than POST)
     aqi_url = "https://api.openweathermap.org/data/2.5/air_pollution"
     del weather_json["units"]
+    aqi_fullurl = f'{aqi_url}?appid={weather_json["appid"]}&lat={weather_json["lat"]}&lon={weather_json["lon"]}'
 
-    air_quality = {"1": "good",
-                   "2": "fair",
-                   "3": "moderate",
-                   "4": "poor",
-                   "5": "very poor"}
+    air_quality = ["good",
+                   "fair",
+                   "moderate",
+                   "poor",
+                   "very poor"]
 
     # get air pollution data
-    aqi_response = requests.post(aqi_url, params=weather_json)
+    aqi_response = requests.get(aqi_fullurl)
     aqi_data = {}
     if aqi_response.status_code == 200:
-        aqi_data = response.json()
+        aqi_data = aqi_response.json()
 
-        print("aqi:        ", air_quality[aqi_data['list']['main']['aqi']])
+        print("aqi:        ", air_quality[aqi_data['list'][0]['main']['aqi']-1])
+        print("pm2_5:      ", aqi_data['list'][0]['components']['pm2_5'])
+        print("o3:         ", aqi_data['list'][0]['components']['o3'])
 
     else:
         print("aqi error ", aqi_response.status_code)
-
 
 
 
