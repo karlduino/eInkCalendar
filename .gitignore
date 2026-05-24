@@ -1,0 +1,5 @@
+*.json
+cal_venv
+openweather.json
+calendar_ids.csv
+calendar_ids.json
