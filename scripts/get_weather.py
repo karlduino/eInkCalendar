@@ -62,8 +62,8 @@ def main():
         aqi_data = aqi_response.json()
 
         print("aqi:        ", air_quality[aqi_data['list'][0]['main']['aqi']-1])
-        print("pm2_5:      ", aqi_data['list'][0]['components']['pm2_5'])
-        print("o3:         ", aqi_data['list'][0]['components']['o3'])
+        print("pm2.5:      ", "%.1f" % aqi_data['list'][0]['components']['pm2_5'] + " μg/m" + '\u00b3')
+        print("o" + '\u00b3' + ":         ", "%.1f" % aqi_data['list'][0]['components']['o3'] + " μg/m" + '\u00b3')
 
     else:
         print("aqi error ", aqi_response.status_code)
