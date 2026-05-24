@@ -116,7 +116,6 @@ def main():
         skip_this = True
 
       if (skip_this == False):
-#        print(when, "|", start, "|", day, "|", time, "|", event["summary"])
         to_print = "%-17s %-9s %-10s %-s" % (when, day, time, event["summary"])
         print(to_print)
 
