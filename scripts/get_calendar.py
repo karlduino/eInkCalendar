@@ -77,6 +77,13 @@ def main():
     thisweek = date.today().strftime("%V")
     nextweek = (date.today() + timedelta(days=7)).strftime("%V")
 
+    # if sat or sunday, add 1 to thisweek and nextweek
+    this_day = date.today().strftime("%a")
+    if this_day == "Sat" or this_day == "Sun":
+        thisweek = nextweek
+        nextweek = (date.today() + timedelta(days=14)).strftime("%V")
+
+
     for event in events:
       start = event['start'].get('dateTime', event['start'].get('date'))
       end = event['end'].get('dateTime', event['end'].get('date'))
@@ -106,10 +113,10 @@ def main():
       elif startdate_date == date.today() + timedelta(days=1):
         when = "tomorrow"
 
-      elif week == thisweek:
+      elif startdate_date <= date.today() + timedelta(days=21) and week == thisweek:
         when = "later in the week"
 
-      elif startdate_date <= date.today() + timedelta(days=14) and week == nextweek:
+      elif startdate_date <= date.today() + timedelta(days=21) and week == nextweek:
         when = "next week"
 
       else:
