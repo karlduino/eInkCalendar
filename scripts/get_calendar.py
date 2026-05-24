@@ -114,7 +114,7 @@ def main():
         when = "tomorrow"
 
       elif startdate_date <= date.today() + timedelta(days=21) and week == thisweek:
-        when = "later in the week"
+        when = "this week"
 
       elif startdate_date <= date.today() + timedelta(days=21) and week == nextweek:
         when = "next week"
