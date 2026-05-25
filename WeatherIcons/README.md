@@ -13,8 +13,6 @@ image codes to descriptions (which are the file names)
 and `weather_conditions` which converts the 3-digit weather condition
 ID to the icon ID.
 
-### Other sources of icons
-
-- <https://www.iconsdb.com/black-icons/black-weather-icons.html>
-
-- or maybe do this by hand, and try <https://cloudconvert.com/svg-to-bmp>
+Hand-edited them to get rid of color, and then converted them to BMP
+files using <https://cloudconvert.com/svg-to-bmp> (because ImageMagick
+wasn't working for me).
