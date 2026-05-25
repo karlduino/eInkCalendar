@@ -16,3 +16,5 @@ ID to the icon ID.
 ### Other sources of icons
 
 - <https://www.iconsdb.com/black-icons/black-weather-icons.html>
+
+- or maybe do this by hand, and try <https://cloudconvert.com/svg-to-bmp>
