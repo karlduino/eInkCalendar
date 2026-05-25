@@ -12,3 +12,7 @@ names with `_` and converts the SVG files to PNG files, using
 image codes to descriptions (which are the file names)
 and `weather_conditions` which converts the 3-digit weather condition
 ID to the icon ID.
+
+### Other sources of icons
+
+- <https://www.iconsdb.com/black-icons/black-weather-icons.html>
