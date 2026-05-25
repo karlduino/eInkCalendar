@@ -7,14 +7,14 @@ for(file in files) {
         system(paste0('replace_spaces.rb "', file.path("SVG", file), '"'))
 }
 
-# if PNG directory doesn't exist, create
-png_dir <- "PNG"
-if(!dir.exists(png_dir)) dir.create(png_dir)
+# if BMP directory doesn't exist, create
+bmp_dir <- "BMP"
+if(!dir.exists(bmp_dir)) dir.create(bmp_dir)
 
-# convert SVG -> PNG
+# convert SVG -> BMP
 files <- list.files("SVG")
 for(file in files) {
     ifile <- file.path("SVG", file)
-    ofile <- file.path("PNG", sub("\\.svg$", ".png", file))
+    ofile <- file.path("BMP", sub("\\.svg$", ".bmp", file))
     system(paste('convert', ifile, ofile))
 }
