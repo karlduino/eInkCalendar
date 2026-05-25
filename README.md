@@ -3,6 +3,9 @@
 Following the instructions at
 <https://www.instructables.com/E-paper-Calendar-Raspberry-Pi-With-E-ink-Screen-an/>
 
+[Waveshare Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT)
+for 7.5-in e-Paper HAT display
+
 The Google API part follows <https://developers.google.com/workspace/calendar/api/quickstart/python>
 
 - Using Google Cloud with my google account, the project is called
