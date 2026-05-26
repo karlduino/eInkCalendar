@@ -18,15 +18,22 @@ SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
 def main():
 
+  today = date.today()
+  weekday = today.strftime("%a")   # or %A spelled out
+  month = today.strftime("%b")     # or %B spelled out
+  day = today.strftime("%-d")
+
   events = get_calendar()
+  weather = get_weather()
+
+  print("\n")
+  print("%s %s %s" % (weekday, month, day))
 
   for event in events:
     to_print = "%-17s %-9s %-10s %-s" % (event["when"], event["day"], event["time"], event["summary"])
     print(to_print)
 
   print("\n")
-
-  weather = get_weather()
 
   print("temp:       ", "%.0f" % weather['temp'] + u'\N{DEGREE SIGN}' + 'F')
   print("conditions: ", weather['conditions'])
@@ -125,12 +132,12 @@ def get_calendar():
       if len(start) == 25: #events that start at specific time
         startdate = datetime.datetime.strptime(start,"%Y-%m-%dT%H:%M:%S%z")
         enddate = datetime.datetime.strptime(end,"%Y-%m-%dT%H:%M:%S%z")
-        time = startdate.strftime("(%I:%M %p)")
+        time = startdate.strftime("(%-I:%M %p)")
       startdate_date = startdate.date()
       if startdate_date < date.today(): # multi-day events that started before today
         startdate = date.today()
         startdate_date = date.today()
-      day = startdate.strftime("%a %m-%d")
+      day = startdate.strftime("%a %-d %b")
       week = startdate.strftime("%V")
 
       if startdate_date == date.today():
@@ -149,9 +156,6 @@ def get_calendar():
         skip_this = True
 
       if (skip_this == False):
-        to_print = "%-17s %-9s %-10s %-s" % (when, day, time, event["summary"])
-        print(to_print)
-
         results.append({"when":     when,
                         "day":      day,
                         "time":     time,
@@ -186,6 +190,8 @@ def get_weather():
 
     result = {}
 
+    print("Getting weather")
+
     # get weather datas
     response = requests.post(url, params=weather_json)
     data = {}
@@ -214,6 +220,8 @@ def get_weather():
                    "poor",
                    "very poor"]
 
+    print("Getting air quality")
+
     # get air pollution data
     aqi_response = requests.get(aqi_fullurl)
     aqi_data = {}
@@ -230,7 +238,7 @@ def get_weather():
     return(result)
 
 
-def convert_date(ts, format="%I:%M %p"):
+def convert_date(ts, format="%-I:%M %p"):
 
     return datetime.datetime.fromtimestamp(ts).strftime(format)
 
