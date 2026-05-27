@@ -58,7 +58,7 @@ def main():
   print("sunset:     ", weather['sunset'])
   print("aqi:        ", weather['aqi'])
   print("pm2.5:      ", "%.1f" % weather['pm2.5'] + " μg/m" + '\u00b3')
-  print("o" + '\u00b3' + ":          " + "%.1f" % weather['o3'] + " μg/m" + '\u00b3')
+  print("o" + '\u00b3' + ":          " + "%.0f" % weather['o3'] + " μg/m" + '\u00b3')
 
 
 def get_calendar():
