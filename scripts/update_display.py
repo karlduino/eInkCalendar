@@ -45,7 +45,7 @@ def main():
     if event["time"] == "":
       print(event["summary"])
     else:
-      print("%-10s %-s" % (event["time"], event["summary"]))
+      print("%-7s %-s" % (event["time"].lower(), event["summary"]))
 
   print("\n")
 
@@ -54,8 +54,8 @@ def main():
   print("weather_id: ", weather['weather_id'])
   print("icon:       ", weather['icon'])
   print("icon file:  ", weather['icon_file'])
-  print("sunrise:    ", weather['sunrise'])
-  print("sunset:     ", weather['sunset'])
+  print("sunrise:    ", weather['sunrise'].lower())
+  print("sunset:     ", weather['sunset'].lower())
   print("aqi:        ", weather['aqi'])
   print("pm2.5:      ", "%.1f" % weather['pm2.5'] + " μg/m" + '\u00b3')
   print("o" + '\u00b3' + ":          " + "%.0f" % weather['o3'] + " μg/m" + '\u00b3')
@@ -146,7 +146,7 @@ def get_calendar():
       if len(start) == 25: #events that start at specific time
         startdate = datetime.datetime.strptime(start,"%Y-%m-%dT%H:%M:%S%z")
         enddate = datetime.datetime.strptime(end,"%Y-%m-%dT%H:%M:%S%z")
-        time = startdate.strftime("%-I:%M %p")
+        time = startdate.strftime("%-I:%M%p")
       startdate_date = startdate.date()
       if startdate_date < date.today(): # multi-day events that started before today
         startdate = date.today()
@@ -252,7 +252,7 @@ def get_weather():
     return(result)
 
 
-def convert_date(ts, format="%-I:%M %p"):
+def convert_date(ts, format="%-I:%M%p"):
 
     return datetime.datetime.fromtimestamp(ts).strftime(format)
 
