@@ -69,10 +69,28 @@ def main():
         print("aqi error ", aqi_response.status_code)
 
 
+    # api call for weather forecast
+    forecast_url = "https://api.openweathermap.org/data/2.5/forecast"
+    weather_json["cnt"] = 8 # just one day
+    weather_json["units"] = "imperial"
 
-def convert_date(ts, format="%I:%M %p"):
+    forecast_response = requests.post(forecast_url, params=weather_json)
+    forecast_data = {}
+    if forecast_response.status_code == 200:
+        forecast_data = forecast_response.json()
 
-    return datetime.datetime.fromtimestamp(ts).strftime(format)
+        forecasts = forecast_data["list"]
+        for x in forecasts:
+            print("%-7s %.0f %s" % (convert_date(x["dt"]), x["main"]["temp"], x["weather"][0]["description"]))
+
+    else:
+        print("forecast error ", forecast_response.status_code)
+
+
+
+def convert_date(ts, format="%I:%M%p"):
+
+    return datetime.datetime.fromtimestamp(ts).strftime(format).lower()
 
 
 
