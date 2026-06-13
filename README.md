@@ -3,8 +3,12 @@
 Following the instructions at
 <https://www.instructables.com/E-paper-Calendar-Raspberry-Pi-With-E-ink-Screen-an/>
 
-[Waveshare Wiki](https://www.waveshare.com/wiki/7.5inch_e-Paper_HAT)
-for 7.5-in e-Paper HAT display
+But I ended up getting a [display from Adafruit](https://www.adafruit.com/product/6415)
+with [instructions here](https://learn.adafruit.com/bare-e-ink-displays-crash-course/7-5-800x480-tri-color-eink-uc8179)
+
+---
+
+### Calendar info
 
 The Google API part follows <https://developers.google.com/workspace/calendar/api/quickstart/python>
 
@@ -45,3 +49,25 @@ See the [API
 docs](https://openweathermap.org/api/current?collection=current_forecast).
 Also the [API docs for getting air pollution
 data](https://openweathermap.org/api/air-pollution?collection=environmental).
+
+
+### Display
+
+- set up `adafruit-python-shell` and run `raspi-blinka.py`
+
+  ```shell
+  pip3 install --upgrade adafruit-python-shell
+  wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py
+  sudo -E env PATH=$PATH python3 raspi-blinka.py
+  ```
+
+- run script as root
+
+  ```shell
+  sudo -E env PATH=$PATH python3 refresh_display.py
+  ```
+
+- see example display script at 
+  [this adafruit page](https://learn.adafruit.com/bare-e-ink-displays-crash-course/7-5-800x480-tri-color-eink-uc8179).
+
+  
