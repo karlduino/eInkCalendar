@@ -61,6 +61,12 @@ data](https://openweathermap.org/api/air-pollution?collection=environmental).
   sudo -E env PATH=$PATH python3 raspi-blinka.py
   ```
 
+- Also install Pillow
+
+  ```shell
+  pip3 install Pillow
+  ```
+
 - run script as root
 
   ```shell
