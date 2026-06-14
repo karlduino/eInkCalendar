@@ -139,8 +139,8 @@ def main():
             seen[index] = True
  
     # add current time
-    time_now = datetime.datetime.now().strftime("%-I:%M %p").lower()
-    draw.text((5,462), time_now, font=font8, fill=BLACK)
+#    time_now = datetime.datetime.now().strftime("%-I:%M %p").lower()
+#    draw.text((5,462), time_now, font=font8, fill=BLACK)
 
     print("display image")
     # display image
