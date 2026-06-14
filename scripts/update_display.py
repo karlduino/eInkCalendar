@@ -89,10 +89,10 @@ def main():
 
     print("add temp, sunrise, sunset")
     temp = "%.0f" % weather['temp'] + '\N{DEGREE SIGN}' + 'F'
-    draw.text((215, 15), temp, font=font24, fill=BLACK)
-    draw.text((325, 15), weather['conditions'], font=font24, fill=BLACK)
-    draw.text((238, 50), weather['sunrise'].lower(), font=font18, fill=BLACK)
-    draw.text((358, 50), weather['sunset'].lower(), font=font18, fill=BLACK)
+    draw.text((245, 15), temp, font=font24, fill=BLACK)
+    draw.text((360, 15), weather['conditions'], font=font24, fill=BLACK)
+    draw.text((268, 50), weather['sunrise'].lower(), font=font18, fill=BLACK)
+    draw.text((388, 50), weather['sunset'].lower(), font=font18, fill=BLACK)
 
     print("add AQI, PM2.5, O3")
     aqi = "AQI: " + weather['aqi']
