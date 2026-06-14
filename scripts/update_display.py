@@ -51,8 +51,7 @@ def main():
 
     width = display.width
     height = display.height
-    print("width=", width)
-    print("height=", height)	
+    print("display height=", width, " width=", height)
 
     today = date.today()
     weekday = today.strftime("%A")   # or %A spelled out
@@ -62,44 +61,50 @@ def main():
     events = get_calendar()
     weather = get_weather()
 
-    font24 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
-    font28 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
+    font16 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
+    font18 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
+    font24 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
     font32 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 32)
     font56 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 56)
 
     padding = 10
   
-    # blank image
-#    print("blank image")
-#    image = Image.new("RGB", (width, height))
-#    display.fill(WHITE)
-
     print("load image file")
     image = Image.open(os.path.join("WeatherIcons", "BMPfull", 
                                     weather['icon_file'] + ".bmp"))
-#    image = Image.open("7in5_V2.bmp")
 
     # drawing object to draw on image
     draw = ImageDraw.Draw(image)
   	
-    # draw an outline box
-#    draw.rectangle((1,1,width-2,height-2), outline=BLACK, fill=WHITE)
-
-    print("Add text")
+    print("Add day, month, weekday")
     x=padding
     y=padding
     draw.text((x,y), day, font=font56, fill=RED)
     x += 80
     y -= 2
-    draw.text((x,y), month, font=font28, fill=BLACK)
+    draw.text((x,y), month, font=font24, fill=BLACK)
     y += 28+4
-    draw.text((x,y), weekday, font=font28, fill=BLACK)
+    draw.text((x,y), weekday, font=font24, fill=BLACK)
+
+    print("add temp, sunrise, sunset")
+    temp = "%.0f" % weather['temp'] + '\N{DEGREE SIGN}' + 'F'
+    draw.text((315, 15), temp, font=font24, fill=BLACK)
+    draw.text((425, 15), weather['conditions'], font=font24, fill=BLACK)
+    draw.text((343, 50), weather['sunrise'].lower(), font=font18, fill=BLACK)
+    draw.text((433, 50), weather['sunset'].lower(), font=font18, fill=BLACK)
+
+    print("add AQI, PM2.5, O3")
+    aqi = "AQI: " + weather['aqi']
+    draw.text((600, 15), aqi, font=font24, fill=BLACK)
+    pm25 = "pm2.5: " + "%.1f" % weather['pm2.5']
+    draw.text((600, 50), pm25, font=font18, fill=BLACK)
+    o3 = "o" + '\u00b3' + ": " + "%.0f" % weather['o3']
+    draw.text((720, 50), o3, font=font18, fill=BLACK)
 
     print("display image")
     # display image
     display.image(image)
     display.display()
-    
 
 #  print("\n")
 #  print("%s %s %s" % (weekday, month, day))
@@ -124,16 +129,6 @@ def main():
 #
 #  print("\n")
 
-#  print("temp:       ", "%.0f" % weather['temp'] + u'\N{DEGREE SIGN}' + 'F')
-#  print("conditions: ", weather['conditions'])
-#  print("weather_id: ", weather['weather_id'])
-#  print("icon:       ", weather['icon'])
-#  print("icon file:  ", weather['icon_file'])
-#  print("sunrise:    ", weather['sunrise'].lower())
-#  print("sunset:     ", weather['sunset'].lower())
-#  print("aqi:        ", weather['aqi'])
-#  print("pm2.5:      ", "%.1f" % weather['pm2.5'] + " μg/m" + '\u00b3')
-#  print("o" + '\u00b3' + ":          " + "%.0f" % weather['o3'] + " μg/m" + '\u00b3')
 
 
 
