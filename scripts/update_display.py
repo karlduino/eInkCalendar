@@ -61,7 +61,7 @@ def main():
     events = get_calendar()
     weather = get_weather()
 
-    font14 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
+    font8 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 8)
     font16 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
     font18 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
     font24 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
@@ -137,6 +137,10 @@ def main():
             draw.text((x[index], y[index]), output, font=font16, fill=BLACK)
             y[index] += 16+lineskip
             seen[index] = True
+ 
+    # add current time
+    time_now = datetime.datetime.now().strftime("%-I:%M %p").lower()
+    draw.text((5,462), time_now, font=font8, fill=BLACK)
 
     print("display image")
     # display image
