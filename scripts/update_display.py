@@ -105,7 +105,7 @@ def main():
     lineskip = 4
 
     print("today/tomorrow/this week...")
-    x = [6, 6, 270, 534]
+    x = [5, 5, 268, 535]
     y = [80, 280, 80, 80]
     draw.text((x[0],y[0]), "Today", font=font18, fill=RED) 
     y[0] += 18+lineskip
@@ -343,7 +343,7 @@ def convert_date(ts, format="%-I:%M%p"):
     return datetime.datetime.fromtimestamp(ts).strftime(format)
 
 
-def truncate_string(x, max_length=26):
+def truncate_string(x, max_length=28):
 
     if len(x) > max_length:
         x = x[0:max_length]
