@@ -70,20 +70,20 @@ def main():
     padding = 10
   
     # blank image
-    print("blank image")
-    image = Image.new("RGB", (width, height))
-    display.fill(WHITE)
+#    print("blank image")
+#    image = Image.new("RGB", (width, height))
+#    display.fill(WHITE)
 
     print("load image file")
-#    image = Image.open(os.path.join("WeatherIcons", "BMPfull", 
-#                                    weather['icon_file'] + ".bmp"))
+    image = Image.open(os.path.join("WeatherIcons", "BMPfull", 
+                                    weather['icon_file'] + ".bmp"))
 #    image = Image.open("7in5_V2.bmp")
 
     # drawing object to draw on image
     draw = ImageDraw.Draw(image)
   	
     # draw an outline box
-    draw.rectangle((1,1,width-2,height-2), outline=BLACK, fill=WHITE)
+#    draw.rectangle((1,1,width-2,height-2), outline=BLACK, fill=WHITE)
 
     print("Add text")
     x=padding
