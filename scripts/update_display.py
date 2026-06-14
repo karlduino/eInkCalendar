@@ -29,13 +29,6 @@ def main():
     BLACK = (0x00, 0x00, 0x00)
     RED = (0xFF, 0x00, 0x00)
 
-    # Next define some constants to allow easy resizing of shapes and colors
-    BORDER = 20
-    FONTSIZE = 24
-    BACKGROUND_COLOR = BLACK
-    FOREGROUND_COLOR = WHITE
-    TEXT_COLOR = BLACK
-
     # create the spi device and pins we will need
     spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
     ecs = digitalio.DigitalInOut(board.CE0)
@@ -60,14 +53,10 @@ def main():
     height = display.height
     print("width=", width)
     print("height=", height)	
-    image = Image.new("RGB", (width, height))
-
-    # clear the buffer
-    display.fill(WHITE)
 
     today = date.today()
-    weekday = today.strftime("%a")   # or %A spelled out
-    month = today.strftime("%b")     # or %B spelled out
+    weekday = today.strftime("%A")   # or %A spelled out
+    month = today.strftime("%B")     # or %B spelled out
     day = today.strftime("%-d")
 
     events = get_calendar()
@@ -76,22 +65,38 @@ def main():
     font24 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
     font28 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
     font32 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 32)
-    font50 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 50)
+    font56 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 56)
 
     padding = 25
   
-    image = Image.open(os.path.join("WeatherIcons", "BMPfull", 
-                                    weather['icon_file'] + ".bmp"))
+    # blank image
+    print("blank image")
+    image = Image.new("RGB", (width, height))
+    display.fill(WHITE)
+
+    print("load image file")
+#    image = Image.open(os.path.join("WeatherIcons", "BMPfull", 
+#                                    weather['icon_file'] + ".bmp"))
+#    image = Image.open("7in5_V2.bmp")
+
+    # drawing object to draw on image
     draw = ImageDraw.Draw(image)
   	
+    # draw an outline box
+    draw.rectangle((1,1,width-2,height-2), outline=BLACK, fill=WHITE)
+
+    print("Add text")
     x=padding
     y=padding
-    draw.text((x,y), day, font=font50, fill=0)
-    x += padding
-    draw.text((x,y), month, font=font28, fill=0)
-    y += padding
-    draw.text((x,y), weekday, font=font28, fill=0)
+    draw.text((x,y), day, font=font56, fill=RED)
+    x += 80
+    y -= 2
+    draw.text((x,y), month, font=font28, fill=BLACK)
+    y += 28+4
+    draw.text((x,y), weekday, font=font28, fill=BLACK)
 
+    print("display image")
+    # display image
     display.image(image)
     display.display()
     
