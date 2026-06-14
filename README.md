@@ -67,10 +67,16 @@ data](https://openweathermap.org/api/air-pollution?collection=environmental).
   pip3 install Pillow
   ```
 
+- Activate environment
+
+  ```shell
+  source cal_venv/bin/activate
+  ```
+
 - run script as root
 
   ```shell
-  sudo -E env PATH=$PATH python3 refresh_display.py
+  sudo -E env PATH=$PATH python3 scripts/update_display.py
   ```
 
 - see example display script at 
