@@ -121,6 +121,12 @@ def main():
     for event in events:
         if event["when"] in sections:
             index = sections.index(event["when"])
+
+            if index > 1 and event["day"] != last_day:
+                last_day = event["day"]
+                draw.text((x[index], y[index]), event["day"], font=font14, fill=RED)
+                y[index] += 14+lineskip
+
             if event["time"] != "":
                 output = event["time"].lower() + "  " + event["summary"]
             else:
