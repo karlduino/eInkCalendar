@@ -61,6 +61,7 @@ def main():
     events = get_calendar()
     weather = get_weather()
 
+    font14 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 14)
     font16 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
     font18 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 18)
     font24 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
@@ -100,34 +101,37 @@ def main():
     draw.text((600, 50), pm25, font=font18, fill=BLACK)
     o3 = "o" + '\u00b3' + ": " + "%.0f" % weather['o3']
     draw.text((720, 50), o3, font=font18, fill=BLACK)
+  
+    lineskip = 4
+
+    print("today/tomorrow/this week...")
+    x = [6, 6, 270, 534]
+    y = [80, 280, 80, 80]
+    draw.text((x[0],y[0]), "Today", font=font18, fill=RED) 
+    y[0] += 18+lineskip
+    draw.text((x[1],y[1]), "Tomorrow", font=font18, fill=RED) 
+    y[1] += 18+lineskip
+    draw.text((x[2],y[2]), "This Week", font=font18, fill=RED) 
+    y[2] += 18+lineskip
+    draw.text((x[3],y[3]), "Next Week", font=font18, fill=RED) 
+    y[3] += 18+lineskip
+
+    last_day = ""
+    sections = ["today", "tomorrow", "this week", "next week"]
+    for event in events:
+        if event["when"] in sections:
+            index = sections.index(event["when"])
+            if event["time"] != "":
+                output = event["time"].lower() + "  " + event["summary"]
+            else:
+                output = event["summary"]
+            draw.text((x[index], y[index]), output, font=font14, fill=BLACK)
+            y[index] += 14+lineskip
 
     print("display image")
     # display image
     display.image(image)
     display.display()
-
-#  print("\n")
-#  print("%s %s %s" % (weekday, month, day))
-#
-#  last_day = ""
-#  seen = {"today": False,
-#          "tomorrow": False,
-#          "this week": False,
-#          "next week": False}
-#  for event in events:
-#    if not seen[event["when"]]: # new section
-#      seen[event["when"]] = True
-#      print("\n" + event["when"] + "\n" + event["day"])
-#      last_day = event["day"]
-#    elif event["day"] != last_day:
-#      print("\n" + event["day"]) # make space
-#      last_day = event["day"]
-#    if event["time"] == "":
-#      print(event["summary"])
-#    else:
-#      print("%-7s %-s" % (event["time"].lower(), event["summary"]))
-#
-#  print("\n")
 
 
 
