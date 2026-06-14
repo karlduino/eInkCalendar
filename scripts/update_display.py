@@ -118,11 +118,14 @@ def main():
 
     last_day = ""
     sections = ["today", "tomorrow", "this week", "next week"]
+    seen = [False, False, False, False]
     for event in events:
         if event["when"] in sections:
             index = sections.index(event["when"])
 
             if index > 1 and event["day"] != last_day:
+                if seen[index]:
+                    y[index] += lineskip
                 last_day = event["day"]
                 draw.text((x[index], y[index]), event["day"], font=font14, fill=RED)
                 y[index] += 14+lineskip
@@ -133,6 +136,7 @@ def main():
                 output = event["summary"]
             draw.text((x[index], y[index]), output, font=font14, fill=BLACK)
             y[index] += 14+lineskip
+            seen[index] = True
 
     print("display image")
     # display image
