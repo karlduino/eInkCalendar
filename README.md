@@ -73,10 +73,10 @@ data](https://openweathermap.org/api/air-pollution?collection=environmental).
   source cal_venv/bin/activate
   ```
 
-- run script as root
+- run script as follows
 
   ```shell
-  sudo -E env PATH=$PATH python3 scripts/update_display.py
+  scripts/update_display.py
   ```
 
 - see example display script at 
