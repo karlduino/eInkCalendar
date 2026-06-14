@@ -127,15 +127,15 @@ def main():
                 if seen[index]:
                     y[index] += lineskip
                 last_day = event["day"]
-                draw.text((x[index], y[index]), event["day"], font=font14, fill=RED)
-                y[index] += 14+lineskip
+                draw.text((x[index], y[index]), event["day"], font=font16, fill=RED)
+                y[index] += 16+lineskip
 
             if event["time"] != "":
-                output = event["time"].lower() + "  " + event["summary"]
+                output = truncate_string(event["time"].lower() + " " + event["summary"])
             else:
-                output = event["summary"]
-            draw.text((x[index], y[index]), output, font=font14, fill=BLACK)
-            y[index] += 14+lineskip
+                output = truncate_string(event["summary"])
+            draw.text((x[index], y[index]), output, font=font16, fill=BLACK)
+            y[index] += 16+lineskip
             seen[index] = True
 
     print("display image")
@@ -343,5 +343,14 @@ def convert_date(ts, format="%-I:%M%p"):
     return datetime.datetime.fromtimestamp(ts).strftime(format)
 
 
+def truncate_string(x, max_length=26):
+
+    if len(x) > max_length:
+        x = x[0:max_length]
+
+    return(x)
+
+
 if __name__ == "__main__":
   main()
+
