@@ -1,5 +1,11 @@
 #!cal_venv/bin/python
 
+import board
+import busio
+import digitalio
+from PIL import Image, ImageDraw, ImageFont
+from adafruit_epd.uc8179 import Adafruit_UC8179
+
 import datetime
 from datetime import date, timedelta
 import os.path
@@ -18,47 +24,113 @@ SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]
 
 def main():
 
-  today = date.today()
-  weekday = today.strftime("%a")   # or %A spelled out
-  month = today.strftime("%b")     # or %B spelled out
-  day = today.strftime("%-d")
+    # First define some color constants
+    WHITE = (0xFF, 0xFF, 0xFF)
+    BLACK = (0x00, 0x00, 0x00)
+    RED = (0xFF, 0x00, 0x00)
 
-  events = get_calendar()
-  weather = get_weather()
+    # Next define some constants to allow easy resizing of shapes and colors
+    BORDER = 20
+    FONTSIZE = 24
+    BACKGROUND_COLOR = BLACK
+    FOREGROUND_COLOR = WHITE
+    TEXT_COLOR = BLACK
 
-  print("\n")
-  print("%s %s %s" % (weekday, month, day))
+    # create the spi device and pins we will need
+    spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
+    ecs = digitalio.DigitalInOut(board.CE0)
+    dc = digitalio.DigitalInOut(board.D22)
+    srcs = None
+    rst = digitalio.DigitalInOut(board.D27)
+    busy = digitalio.DigitalInOut(board.D17)
 
-  last_day = ""
-  seen = {"today": False,
-          "tomorrow": False,
-          "this week": False,
-          "next week": False}
-  for event in events:
-    if not seen[event["when"]]: # new section
-      seen[event["when"]] = True
-      print("\n" + event["when"] + "\n" + event["day"])
-      last_day = event["day"]
-    elif event["day"] != last_day:
-      print("\n" + event["day"]) # make space
-      last_day = event["day"]
-    if event["time"] == "":
-      print(event["summary"])
-    else:
-      print("%-7s %-s" % (event["time"].lower(), event["summary"]))
+    display = Adafruit_UC8179(800, 480,         # 7.5" tricolor 800x480 display
+        spi,
+        cs_pin=ecs,
+        dc_pin=dc,
+        sramcs_pin=srcs,
+        rst_pin=rst,
+        busy_pin=busy,
+        tri_color = True
+    )
 
-  print("\n")
+    display.rotation = 0
 
-  print("temp:       ", "%.0f" % weather['temp'] + u'\N{DEGREE SIGN}' + 'F')
-  print("conditions: ", weather['conditions'])
-  print("weather_id: ", weather['weather_id'])
-  print("icon:       ", weather['icon'])
-  print("icon file:  ", weather['icon_file'])
-  print("sunrise:    ", weather['sunrise'].lower())
-  print("sunset:     ", weather['sunset'].lower())
-  print("aqi:        ", weather['aqi'])
-  print("pm2.5:      ", "%.1f" % weather['pm2.5'] + " μg/m" + '\u00b3')
-  print("o" + '\u00b3' + ":          " + "%.0f" % weather['o3'] + " μg/m" + '\u00b3')
+    width = display.width
+    height = display.height
+    print("width=", width)
+    print("height=", height)	
+    image = Image.new("RGB", (width, height))
+
+    # clear the buffer
+    display.fill(WHITE)
+
+    today = date.today()
+    weekday = today.strftime("%a")   # or %A spelled out
+    month = today.strftime("%b")     # or %B spelled out
+    day = today.strftime("%-d")
+
+    events = get_calendar()
+    weather = get_weather()
+
+    font24 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
+    font28 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 24)
+    font32 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 32)
+    font50 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 50)
+
+    padding = 25
+  
+    image = Image.open(os.path.join("WeatherIcons", "BMPfull", 
+                                    weather['icon_file'] + ".bmp"))
+    draw = ImageDraw.Draw(image)
+  	
+    x=padding
+    y=padding
+    draw.text((x,y), day, font=font50, fill=0)
+    x += padding
+    draw.text((x,y), month, font=font28, fill=0)
+    y += padding
+    draw.text((x,y), weekday, font=font28, fill=0)
+
+    display.image(image)
+    display.display()
+    
+
+#  print("\n")
+#  print("%s %s %s" % (weekday, month, day))
+#
+#  last_day = ""
+#  seen = {"today": False,
+#          "tomorrow": False,
+#          "this week": False,
+#          "next week": False}
+#  for event in events:
+#    if not seen[event["when"]]: # new section
+#      seen[event["when"]] = True
+#      print("\n" + event["when"] + "\n" + event["day"])
+#      last_day = event["day"]
+#    elif event["day"] != last_day:
+#      print("\n" + event["day"]) # make space
+#      last_day = event["day"]
+#    if event["time"] == "":
+#      print(event["summary"])
+#    else:
+#      print("%-7s %-s" % (event["time"].lower(), event["summary"]))
+#
+#  print("\n")
+
+#  print("temp:       ", "%.0f" % weather['temp'] + u'\N{DEGREE SIGN}' + 'F')
+#  print("conditions: ", weather['conditions'])
+#  print("weather_id: ", weather['weather_id'])
+#  print("icon:       ", weather['icon'])
+#  print("icon file:  ", weather['icon_file'])
+#  print("sunrise:    ", weather['sunrise'].lower())
+#  print("sunset:     ", weather['sunset'].lower())
+#  print("aqi:        ", weather['aqi'])
+#  print("pm2.5:      ", "%.1f" % weather['pm2.5'] + " μg/m" + '\u00b3')
+#  print("o" + '\u00b3' + ":          " + "%.0f" % weather['o3'] + " μg/m" + '\u00b3')
+
+
 
 
 def get_calendar():
