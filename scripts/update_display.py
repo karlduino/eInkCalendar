@@ -67,7 +67,7 @@ def main():
     font32 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 32)
     font56 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 56)
 
-    padding = 25
+    padding = 10
   
     # blank image
     print("blank image")
