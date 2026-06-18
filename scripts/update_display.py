@@ -135,7 +135,7 @@ def main():
                 output = truncate_string(event["time"].lower() + " " + event["summary"])
             else:
                 output = truncate_string(event["summary"])
-	    if y[index] <= height-16: # don't add if there's no room
+            if y[index] <= height-16: # don't add if there's no room
                 draw.text((x[index], y[index]), output, font=font16, fill=BLACK)
             y[index] += 16+lineskip
             seen[index] = True
