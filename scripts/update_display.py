@@ -127,14 +127,16 @@ def main():
                 if seen[index]:
                     y[index] += lineskip
                 last_day = event["day"]
-                draw.text((x[index], y[index]), event["day"], font=font16, fill=RED)
+                if y[index] > height-16: # don't add if there's no room
+                    draw.text((x[index], y[index]), event["day"], font=font16, fill=RED)
                 y[index] += 16+lineskip
 
             if event["time"] != "":
                 output = truncate_string(event["time"].lower() + " " + event["summary"])
             else:
                 output = truncate_string(event["summary"])
-            draw.text((x[index], y[index]), output, font=font16, fill=BLACK)
+	    if y[index] > height-16: # don't add if there's no room
+                draw.text((x[index], y[index]), output, font=font16, fill=BLACK)
             y[index] += 16+lineskip
             seen[index] = True
  
