@@ -60,6 +60,7 @@ def main():
 
     events = get_calendar()
     weather = get_weather()
+    airquality = get_airquality()
 
     font8 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 8)
     font16 = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 16)
@@ -95,11 +96,11 @@ def main():
     draw.text((388, 50), weather['sunset'].lower(), font=font18, fill=BLACK)
 
     print("add AQI, PM2.5, O3")
-    aqi = "AQI: " + weather['aqi']
+    aqi = "AQI: " + str(airquality['aqi'])
     draw.text((600, 15), aqi, font=font24, fill=BLACK)
-    pm25 = "pm2.5: " + "%.1f" % weather['pm2.5']
+    pm25 = "pm2.5: " + "%.0f" % airquality['pm25']
     draw.text((600, 50), pm25, font=font18, fill=BLACK)
-    o3 = "o" + '\u00b3' + ": " + "%.0f" % weather['o3']
+    o3 = "o" + '\u2083' + ": " + "%.0f" % airquality['o3']
     draw.text((720, 50), o3, font=font18, fill=BLACK)
   
     lineskip = 4
@@ -315,28 +316,36 @@ def get_weather():
     else:
         print("weather error ", response.status_code)
 
-    # api call for air pollution (seems to need GET rather than POST)
-    aqi_url = "https://api.openweathermap.org/data/2.5/air_pollution"
-    del weather_json["units"]
-    aqi_fullurl = f'{aqi_url}?appid={weather_json["appid"]}&lat={weather_json["lat"]}&lon={weather_json["lon"]}'
+    return(result)
 
-    air_quality = ["good",
-                   "fair",
-                   "moderate",
-                   "poor",
-                   "very poor"]
 
-    print("Getting air quality")
+def get_airquality():
+    """Get air quality info from aqicn.org
+    """
+
+    # load airquality.json with token and location
+    airquality_file = "airquality.json"
+    if os.path.exists(airquality_file):
+        with open(airquality_file) as f:
+            airquality_json = json.load(f)
+
+    # api call
+    url = "http://api.waqi.info/feed/"
+    aqi_url = url + airquality_json["location"] + "/?token=" + airquality_json["token"]
 
     # get air pollution data
-    aqi_response = requests.get(aqi_fullurl)
+    aqi_response = requests.get(aqi_url)
     aqi_data = {}
     if aqi_response.status_code == 200:
         aqi_data = aqi_response.json()
 
-        result['aqi'] = air_quality[aqi_data['list'][0]['main']['aqi']-1]
-        result['pm2.5'] = aqi_data['list'][0]['components']['pm2_5']
-        result['o3'] = aqi_data['list'][0]['components']['o3']
+        result = {"aqi": aqi_data['data']['aqi'],
+                  "pm25": aqi_data['data']['iaqi']['pm25']['v'],
+                  "o3": aqi_data['data']['iaqi']['o3']['v']}
+
+        print("aqi:        ", result["aqi"])
+        print("pm2.5:      ", "%.1f" % result["pm25"])
+        print("o" + '\u2083' + ":         ", "%.1f" % result["o3"])
 
     else:
         print("aqi error ", aqi_response.status_code)
