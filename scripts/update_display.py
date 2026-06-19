@@ -96,12 +96,12 @@ def main():
     draw.text((388, 50), weather['sunset'].lower(), font=font18, fill=BLACK)
 
     print("add AQI, PM2.5, O3")
-    aqi = "AQI: " + str(airquality['aqi'])
-    draw.text((600, 15), aqi, font=font24, fill=BLACK)
+    aqi = "AQI: " + str(airquality['aqi']) + " " + airquality['aqi_word']
+    draw.text((550, 15), aqi, font=font24, fill=BLACK)
     pm25 = "pm2.5: " + "%.0f" % airquality['pm25']
-    draw.text((600, 50), pm25, font=font18, fill=BLACK)
+    draw.text((550, 50), pm25, font=font18, fill=BLACK)
     o3 = "o" + '\u2083' + ": " + "%.0f" % airquality['o3']
-    draw.text((720, 50), o3, font=font18, fill=BLACK)
+    draw.text((670, 50), o3, font=font18, fill=BLACK)
   
     lineskip = 4
 
@@ -333,19 +333,29 @@ def get_airquality():
     url = "http://api.waqi.info/feed/"
     aqi_url = url + airquality_json["location"] + "/?token=" + airquality_json["token"]
 
+    print("Getting air quality")
+
     # get air pollution data
     aqi_response = requests.get(aqi_url)
     aqi_data = {}
     if aqi_response.status_code == 200:
         aqi_data = aqi_response.json()
 
-        result = {"aqi": aqi_data['data']['aqi'],
+        aqi = aqi_data['data']['aqi']
+        aqi_word = "hazard"
+        if aqi < 50:
+            aqi_word = "good"
+        elif aqi < 100:
+            aqi_word = "moderate"
+        elif aqi < 150:	
+            aqi_word = "sensitive"
+        elif aqi < 200:
+            aqi_word = "unhealthy"
+
+        result = {"aqi": aqi,
+                  "aqi_word": aqi_word,
                   "pm25": aqi_data['data']['iaqi']['pm25']['v'],
                   "o3": aqi_data['data']['iaqi']['o3']['v']}
-
-        print("aqi:        ", result["aqi"])
-        print("pm2.5:      ", "%.1f" % result["pm25"])
-        print("o" + '\u2083' + ":         ", "%.1f" % result["o3"])
 
     else:
         print("aqi error ", aqi_response.status_code)
