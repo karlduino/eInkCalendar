@@ -342,7 +342,7 @@ def get_airquality():
         aqi_data = aqi_response.json()
 
         aqi = aqi_data['data']['aqi']
-        aqi_word = "hazard"
+        aqi_word = "hazardous"
         if aqi < 50:
             aqi_word = "good"
         elif aqi < 100:
@@ -351,6 +351,8 @@ def get_airquality():
             aqi_word = "sensitive"
         elif aqi < 200:
             aqi_word = "unhealthy"
+        elif aqi < 300:
+            aqi_word = "very unhealthy"
 
         result = {"aqi": aqi,
                   "aqi_word": aqi_word,
