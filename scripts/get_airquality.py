@@ -7,7 +7,7 @@ import json
 import requests
 
 def main():
-    """Get air quality info from
+    """Get air quality info from aqicn.org
     """
 
     # load airquality.json with token and location
@@ -26,7 +26,6 @@ def main():
     if aqi_response.status_code == 200:
         aqi_data = aqi_response.json()
 
-#        print(aqi_data)
         print("aqi:        ", aqi_data['data']['aqi']);
         print("pm2.5:      ", "%.1f" % aqi_data['data']['iaqi']['pm25']['v'])
         print("o" + '\u2083' + ":         ", "%.1f" % aqi_data['data']['iaqi']['o3']['v'])
