@@ -40,6 +40,7 @@ The Google API part follows <https://developers.google.com/workspace/calendar/ap
 
 - copied over token.json to the pi, and it worked there.
 
+
 ### Weather data
 
 Also looking at [this
@@ -49,6 +50,13 @@ See the [API
 docs](https://openweathermap.org/api/current?collection=current_forecast).
 Also the [API docs for getting air pollution
 data](https://openweathermap.org/api/air-pollution?collection=environmental).
+
+
+### Air Quality data
+
+In place of the OpenWeatherAPI's air quality data, I switched to 
+<https://aqicn.org>. You need [to get a token](https://aqicn.org/data-platform/token).
+API documentation at <https://aqicn.org/api>.
 
 
 ### Display
