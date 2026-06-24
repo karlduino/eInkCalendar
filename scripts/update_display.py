@@ -97,11 +97,11 @@ def main():
 
     print("add AQI, PM2.5, O3")
     aqi = "AQI: " + str(airquality['aqi']) + " " + airquality['aqi_word']
-    draw.text((550, 15), aqi, font=font24, fill=BLACK)
+    draw.text((575, 15), aqi, font=font24, fill=BLACK)
     pm25 = "pm2.5: " + "%.0f" % airquality['pm25']
-    draw.text((550, 50), pm25, font=font18, fill=BLACK)
+    draw.text((575, 50), pm25, font=font18, fill=BLACK)
     o3 = "o" + '\u2083' + ": " + "%.0f" % airquality['o3']
-    draw.text((670, 50), o3, font=font18, fill=BLACK)
+    draw.text((695, 50), o3, font=font18, fill=BLACK)
   
     lineskip = 4
 
